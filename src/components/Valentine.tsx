@@ -3,8 +3,17 @@ import { Frame } from "./Frame";
 import { Controls } from "./Controls";
 import { Result } from "./Result";
 import { Loader } from "./Loader";
+import { useLoveContext } from "./service/Provider";
 
 export const Valentine: FC = () => {
+  const { isLoading, isLove, playWithYes } = useLoveContext();
+
+  if (isLoading) {
+    return <Loader />;
+  }
+  if (isLove && !isLoading) {
+    return <Result />;
+  }
   return (
     <>
       <Frame
@@ -13,10 +22,7 @@ export const Valentine: FC = () => {
       />
 
       <h2 className="question">Do you love me?</h2>
-
-      <Controls />
-      <Result />
-      <Loader />
+      <Controls playWithYes={playWithYes} />
     </>
   );
 };

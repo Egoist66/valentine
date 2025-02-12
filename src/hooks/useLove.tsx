@@ -1,14 +1,24 @@
 import { useState } from "react";
+import { delay } from "../utils/delay";
 
-export const useLove = (questionContainer: HTMLDivElement | null) => {
 
+type useLoveProps = {
+    questionContainer: HTMLDivElement | null,
+    gifResult: HTMLVideoElement | null
+}
+
+export const useLove = ({questionContainer, gifResult}: useLoveProps) => {
+
+    
     const [coordinates, setCoordinates] = useState<{x: number, y: number}>({
-        x: Math.floor(Math.random() * questionContainer?.offsetWidth!),
-        y: Math.floor(Math.random() * questionContainer?.offsetWidth!)
+        x:Math.floor(Math.random() * questionContainer?.offsetWidth!) ,
+        y: +Math.floor(Math.random() * questionContainer?.offsetWidth!)
     })
 
+    const [isLoading, setLoading] = useState<boolean>(false)
+    const [isLove, setLove] = useState<boolean>(false)
+
     const playWithNo = () => {
-        console.log(questionContainer);
 
         if(questionContainer){
 
@@ -24,8 +34,22 @@ export const useLove = (questionContainer: HTMLDivElement | null) => {
     
     }
 
+    const playWithYes = async () => {
+        setLoading(true)
+       
+        await delay(3000)
+        setLoading(false)
+        setLove(true)
+
+        gifResult?.play()
+        
+    }
+
     return {
+        isLoading,
+        isLove,
         coordinates,
+        playWithYes,
         playWithNo
     }
 }

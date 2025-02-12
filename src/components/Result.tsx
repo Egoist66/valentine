@@ -5,7 +5,7 @@ export const Result: FC = () => {
     <div className="result-container container">
       <video
         className="gif-result"
-        src="cute love gif.mp4"
+        src="/cute-love-gif.mp4"
         autoPlay
         loop
       ></video>

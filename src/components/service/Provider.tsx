@@ -1,23 +1,35 @@
-import { createContext, FC, ReactNode, useContext } from "react";
+import { createContext, FC, ReactNode, use, useEffect, useState } from "react";
 import { useLove } from "../../hooks/useLove";
 
 type ProviderValues = {
     coordinates: {x: number, y: number},
-    playWithNo: () => void
+    playWithNo: () => void,
+    playWithYes: () => Promise<void>
+    isLoading: boolean
+    isLove: boolean
 }
 
 const LoveContext = createContext<ProviderValues | null>(null)
 export const useLoveContext = (): ProviderValues => {
-    return useContext(LoveContext)!
+    return use(LoveContext)!
 }
 
 export const Provider: FC<{children: ReactNode}> = ({children}) => {
-    const questionContainer = document.querySelector('.question-container') as HTMLDivElement
+    const [questionContainer, setQuestionContainer] = useState<HTMLDivElement | null>(null)
+    const [gifResult, setGifResult] = useState<HTMLVideoElement | null>(null)
+
+    useEffect(() => {
+        setQuestionContainer(document.querySelector('.question-container') as HTMLDivElement)
+        setGifResult(document.querySelector('.gif-result') as HTMLVideoElement)
+    }, [])
     
-    const {coordinates, playWithNo}  = useLove(questionContainer)
+    const {coordinates, playWithNo, playWithYes, isLoading, isLove}  = useLove({
+        questionContainer, 
+        gifResult
+    })
     return (
 
-        <LoveContext.Provider value={{ coordinates, playWithNo }}>
+        <LoveContext.Provider value={{ coordinates, isLoading, isLove, playWithNo, playWithYes }}>
 
             {children}
 
