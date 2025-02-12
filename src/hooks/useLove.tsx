@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { delay } from "../utils/delay";
 
 
@@ -10,10 +10,13 @@ type useLoveProps = {
 export const useLove = ({questionContainer, gifResult}: useLoveProps) => {
 
     
-    const [coordinates, setCoordinates] = useState<{x: number, y: number}>({
-        x:Math.floor(Math.random() * questionContainer?.offsetWidth!) ,
-        y: +Math.floor(Math.random() * questionContainer?.offsetWidth!)
-    })
+    
+    const [coordinates, setCoordinates] = useState<{x: number, y: number}>(() => (
+        {
+            x: Math.floor(Math.random() * questionContainer?.offsetWidth!),
+            y: Math.floor(Math.random() * questionContainer?.offsetWidth!)
+        }
+    ))
 
     const [isLoading, setLoading] = useState<boolean>(false)
     const [isLove, setLove] = useState<boolean>(false)

@@ -5,7 +5,6 @@ import { Valentine } from './components/Valentine'
 const App: FC = () => {
 
 
-
   return (
     <div className='question-container container'>
       <Valentine />
